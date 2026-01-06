@@ -12,121 +12,144 @@ const IMG = {
 const Waves = () => {
   const ref = useRef(null);
   useEffect(() => {
-    const c = ref.current, ctx = c.getContext('2d');
-    let t = 0;
-    const resize = () => { c.width = window.innerWidth; c.height = 200; };
+    const canvas = ref.current;
+    const ctx = canvas.getContext('2d');
+    let animationId;
+    const resize = () => { canvas.width = window.innerWidth; canvas.height = 200; };
     resize();
     window.addEventListener('resize', resize);
-    const draw = () => {
-      ctx.clearRect(0, 0, c.width, c.height);
-      [[25, 0.015, 0.03, 'rgba(0,53,102,0.95)', 0.7], [20, 0.02, 0.025, 'rgba(0,80,130,0.8)', 0.55], [15, 0.025, 0.035, 'rgba(0,119,182,0.6)', 0.4]].forEach(([a, f, s, col, y]) => {
-        ctx.beginPath(); ctx.moveTo(0, c.height);
-        for (let x = 0; x <= c.width; x += 3) ctx.lineTo(x, c.height * y + Math.sin(x * f + t * s) * a + Math.sin(x * f * 0.5 + t * s * 1.3) * a * 0.5);
-        ctx.lineTo(c.width, c.height); ctx.closePath(); ctx.fillStyle = col; ctx.fill();
-      });
-      t++; requestAnimationFrame(draw);
+    const draw = (time) => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(0, canvas.height);
+        for (let x = 0; x <= canvas.width; x += 5) {
+          const y = Math.sin(x * 0.008 + time * 0.001 + i) * (15 + i * 5) + 100 + i * 30;
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(canvas.width, canvas.height);
+        ctx.fillStyle = `rgba(0, 119, 182, ${0.15 - i * 0.04})`;
+        ctx.fill();
+      }
+      animationId = requestAnimationFrame(draw);
     };
-    draw();
-    return () => window.removeEventListener('resize', resize);
+    draw(0);
+    return () => { cancelAnimationFrame(animationId); window.removeEventListener('resize', resize); };
   }, []);
   return <canvas ref={ref} style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '200px', pointerEvents: 'none' }} />;
 };
 
 const products = [
-  { id: 1, name: 'Камчатский краб', sub: 'Нежное, сочное мясо', desc: 'Тает на губах', price: '12 500', w: 'кг', tag: 'Хит', img: IMG.crab },
-  { id: 2, name: 'Чёрная икра', sub: 'Белужья, осетровая', desc: 'Солёные поцелуи моря', price: '48 000', w: '100г', tag: 'Премиум', img: IMG.caviar },
-  { id: 3, name: 'Гребешок', sub: 'Шёлковая текстура', desc: 'Ласкает нёбо', price: '4 800', w: 'кг', tag: '', img: IMG.scallops },
-  { id: 4, name: 'Устрицы', sub: 'Хасанские, свежие', desc: 'Вкус чистого моря', price: '890', w: 'шт', tag: 'Афродизиак', img: IMG.oyster },
-  { id: 5, name: 'Оленина', sub: 'Дикая, фермерская', desc: 'Сила тайги', price: '3 200', w: 'кг', tag: '', img: IMG.venison },
-  { id: 6, name: 'Вечер вдвоём', sub: 'Сет для двоих', desc: 'Всё для особенного вечера', price: '24 900', w: 'сет', tag: 'Романтика', img: IMG.couple }
+  { id: 1, name: 'Камчатский краб', sub: 'Свежий, премиальный', desc: 'Идеален для семейного торжества', price: '12 500', w: 'кг', tag: 'Хит продаж', img: IMG.crab },
+  { id: 2, name: 'Чёрная икра', sub: 'Белужья, осетровая', desc: 'Украшение праздничного стола', price: '48 000', w: '100г', tag: 'Премиум', img: IMG.caviar },
+  { id: 3, name: 'Гребешок', sub: 'Нежная текстура', desc: 'Любимец гурманов', price: '4 800', w: 'кг', tag: '', img: IMG.scallops },
+  { id: 4, name: 'Устрицы', sub: 'Хасанские, свежие', desc: 'Вкус чистого моря', price: '890', w: 'шт', tag: 'Свежий улов', img: IMG.oyster },
+  { id: 5, name: 'Оленина', sub: 'Дикая, экологичная', desc: 'Вкус северной природы', price: '3 200', w: 'кг', tag: '', img: IMG.venison },
+  { id: 6, name: 'Семейный сет', sub: 'На 4-6 персон', desc: 'Всё для особенного вечера', price: '29 900', w: 'сет', tag: 'Для семьи', img: IMG.couple }
+];
+
+const reviews = [
+  { name: 'Андрей К.', role: 'Предприниматель', text: 'Заказываю уже третий год. Качество неизменно превосходное. Жена и дети в восторге от каждой доставки.' },
+  { name: 'Елена М.', role: 'Мама троих детей', text: 'Нашла идеальный вариант для семейных праздников. Доставка точно в срок, продукты всегда свежайшие.' },
+  { name: 'Сергей В.', role: 'Топ-менеджер', text: 'Дарю семейные сеты партнёрам и друзьям. Это подарок, который точно запомнится и произведёт впечатление.' }
 ];
 
 export default function App() {
   const [form, setForm] = useState({ name: '', phone: '' });
   const [sent, setSent] = useState(false);
   const [hover, setHover] = useState(null);
+  const [activeReview, setActiveReview] = useState(0);
 
   return (
     <div style={{ minHeight: '100vh', background: '#0a0a0a', fontFamily: 'Georgia, serif', color: '#fff' }}>
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        .btn { background: linear-gradient(135deg, #8b2942, #c75d4a); color: #f5e6d3; border: none; padding: 16px 36px; font-size: 16px; font-style: italic; border-radius: 50px; cursor: pointer; transition: all 0.4s; }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(139,41,66,0.4); }
-        .card { background: linear-gradient(145deg, rgba(26,10,10,0.9), rgba(10,10,10,0.95)); border-radius: 16px; overflow: hidden; transition: all 0.5s; border: 1px solid rgba(212,165,116,0.1); }
-        .card:hover { transform: translateY(-10px); border-color: rgba(199,93,74,0.3); }
-        .input { width: 100%; padding: 16px 20px; border: 1px solid rgba(212,165,116,0.2); border-radius: 10px; font-size: 16px; background: rgba(26,10,10,0.5); color: #f5e6d3; outline: none; font-family: Georgia, serif; }
-        .input:focus { border-color: #c75d4a; }
-        .input::placeholder { color: rgba(212,165,116,0.4); font-style: italic; }
-        .tag { padding: 6px 14px; background: rgba(139,41,66,0.9); color: #f5e6d3; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border-radius: 15px; }
+        .btn { background: linear-gradient(135deg, #1a4d5c, #2a7d8c); color: #f5f0e8; border: none; padding: 16px 40px; font-size: 16px; border-radius: 8px; cursor: pointer; transition: all 0.4s; font-family: Georgia, serif; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(26,77,92,0.4); background: linear-gradient(135deg, #2a5d6c, #3a8d9c); }
+        .card { background: linear-gradient(145deg, rgba(26,35,40,0.95), rgba(15,20,25,0.98)); border-radius: 16px; overflow: hidden; transition: all 0.5s; border: 1px solid rgba(212,185,150,0.1); }
+        .card:hover { transform: translateY(-8px); border-color: rgba(42,125,140,0.4); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .input { width: 100%; padding: 18px 22px; border: 1px solid rgba(212,185,150,0.2); border-radius: 10px; font-size: 16px; background: rgba(26,35,40,0.6); color: #f5f0e8; outline: none; font-family: Georgia, serif; }
+        .input:focus { border-color: #2a7d8c; box-shadow: 0 0 20px rgba(42,125,140,0.2); }
+        .input::placeholder { color: rgba(212,185,150,0.5); }
+        .tag { padding: 8px 16px; background: linear-gradient(135deg, #1a4d5c, #2a7d8c); color: #f5f0e8; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; border-radius: 20px; }
+        .trust-icon { width: 60px; height: 60px; background: linear-gradient(135deg, rgba(42,125,140,0.2), rgba(26,77,92,0.3)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
       `}</style>
 
+      {/* HEADER */}
+      <header style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '20px 40px', background: 'linear-gradient(180deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0) 100%)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: '22px', color: '#d4b996', fontWeight: '400' }}>Дальний Восток</span>
+          <span style={{ fontSize: '14px', color: 'rgba(212,185,150,0.7)' }}>+7 (423) 200-16-16</span>
+        </div>
+      </header>
+
       {/* HERO */}
-      <section style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0a 0%, #1a0a0a 30%, #0a1628 60%, #0077b6 100%)', display: 'flex', alignItems: 'center', padding: '80px 40px 250px', position: 'relative', overflow: 'hidden' }}>
+      <section style={{ minHeight: '100vh', background: 'linear-gradient(180deg, #0a0a0a 0%, #0f1418 30%, #0a1628 60%, #0077b6 100%)', display: 'flex', alignItems: 'center', padding: '100px 40px 250px', position: 'relative', overflow: 'hidden' }}>
         <Waves />
-        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center', width: '100%', position: 'relative', zIndex: 10 }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center', width: '100%', position: 'relative', zIndex: 10 }}>
           <div>
-            <p style={{ fontSize: '11px', letterSpacing: '3px', color: 'rgba(212,165,116,0.7)', textTransform: 'uppercase', marginBottom: '20px' }}>Дальний Восток России</p>
-            <h1 style={{ fontSize: '48px', fontWeight: '300', fontStyle: 'italic', color: '#f5e6d3', lineHeight: 1.15, marginBottom: '30px' }}>Вкус,<br/>от которого<br/><span style={{ color: '#c75d4a' }}>замирает сердце</span></h1>
-            <p style={{ fontSize: '18px', color: 'rgba(245,230,211,0.7)', lineHeight: 1.8, marginBottom: '40px', fontStyle: 'italic' }}>Дикие морепродукты с Камчатки и Сахалина. Нежность, которая растекается по губам. Страсть в каждом укусе.</p>
-            <button className="btn">Испытать наслаждение</button>
+            <p style={{ fontSize: '12px', letterSpacing: '4px', color: 'rgba(212,185,150,0.8)', textTransform: 'uppercase', marginBottom: '25px' }}>Премиальные деликатесы</p>
+            <h1 style={{ fontSize: '52px', fontWeight: '300', color: '#f5f0e8', lineHeight: 1.15, marginBottom: '30px' }}>То, что достойно<br/>вашего<br/><span style={{ color: '#d4b996' }}>семейного стола</span></h1>
+            <p style={{ fontSize: '18px', color: 'rgba(245,240,232,0.75)', lineHeight: 1.9, marginBottom: '45px' }}>Дикие морепродукты с Камчатки и Сахалина. Мы доставляем не просто еду — мы доставляем моменты, которые объединяют семью.</p>
+            <button className="btn">Выбрать деликатесы</button>
           </div>
           <div style={{ position: 'relative' }}>
-            <div style={{ width: '100%', maxWidth: '400px', height: '500px', borderRadius: '150px 150px 30px 30px', overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.5)' }}>
-              <img src={IMG.crab} alt="Краб" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ width: '100%', maxWidth: '420px', height: '520px', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.5)' }}>
+              <img src={IMG.crab} alt="Камчатский краб" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
-            <div style={{ position: 'absolute', bottom: '60px', left: '-40px', background: 'rgba(10,10,10,0.9)', padding: '20px 30px', borderRadius: '15px', border: '1px solid rgba(212,165,116,0.1)' }}>
-              <p style={{ fontSize: '14px', fontStyle: 'italic', color: 'rgba(245,230,211,0.6)', marginBottom: '5px' }}>Камчатский краб</p>
-              <p style={{ fontSize: '28px', color: '#d4a574' }}>от 12 500 ₽</p>
+            <div style={{ position: 'absolute', bottom: '40px', left: '-60px', background: 'rgba(15,20,25,0.95)', padding: '25px 35px', borderRadius: '16px', border: '1px solid rgba(212,185,150,0.1)', backdropFilter: 'blur(10px)' }}>
+              <p style={{ fontSize: '13px', color: 'rgba(212,185,150,0.7)', marginBottom: '8px' }}>Камчатский краб</p>
+              <p style={{ fontSize: '32px', color: '#d4b996', fontWeight: '300' }}>от 12 500 руб</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* QUOTE */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a', textAlign: 'center' }}>
-        <p style={{ fontSize: '22px', fontStyle: 'italic', color: 'rgba(245,230,211,0.8)', maxWidth: '700px', margin: '0 auto', lineHeight: 1.8 }}>"Еда — это <span style={{ color: '#c75d4a' }}>интимный акт</span>. Каждый кусочек — признание в любви своему телу."</p>
+      {/* PHILOSOPHY */}
+      <section style={{ padding: '100px 40px', background: '#0a0a0a', textAlign: 'center' }}>
+        <p style={{ fontSize: '24px', color: 'rgba(245,240,232,0.85)', maxWidth: '800px', margin: '0 auto', lineHeight: 1.9 }}>"Семейный стол — это <span style={{ color: '#d4b996' }}>место силы</span>. Здесь рождаются традиции, укрепляются связи и создаются воспоминания на всю жизнь."</p>
       </section>
 
-      {/* OYSTER */}
-      <section style={{ padding: '80px 40px', background: 'linear-gradient(180deg, #0a0a0a, #1a0a0a)' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+      {/* QUALITY STORY */}
+      <section style={{ padding: '100px 40px', background: 'linear-gradient(180deg, #0a0a0a, #0f1418)' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center' }}>
           <div style={{ height: '500px', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.4)' }}>
-            <img src={IMG.oyster} alt="Устрица" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={IMG.oyster} alt="Свежие устрицы" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div>
-            <p style={{ fontSize: '10px', letterSpacing: '3px', color: 'rgba(199,93,74,0.8)', textTransform: 'uppercase', marginBottom: '20px' }}>Афродизиак</p>
-            <h2 style={{ fontSize: '40px', fontStyle: 'italic', color: '#f5e6d3', lineHeight: 1.2, marginBottom: '25px' }}>Устрицы<br/><span style={{ color: '#c75d4a' }}>скользят по губам</span></h2>
-            <p style={{ fontSize: '17px', color: 'rgba(245,230,211,0.7)', lineHeight: 1.8, fontStyle: 'italic', marginBottom: '20px' }}>Холодные, солёные, скользкие. Они требуют полной отдачи. Закрыть глаза. Запрокинуть голову. Позволить морю войти в тебя.</p>
-            <p style={{ fontSize: '15px', color: 'rgba(212,165,116,0.6)', fontStyle: 'italic', marginBottom: '30px' }}>Казанова съедал 50 штук на завтрак. Теперь твоя очередь.</p>
-            <div style={{ fontSize: '32px', color: '#d4a574' }}>от 890 ₽ <span style={{ fontSize: '16px', color: 'rgba(212,165,116,0.5)' }}>/ шт</span></div>
+            <p style={{ fontSize: '11px', letterSpacing: '4px', color: 'rgba(42,125,140,0.9)', textTransform: 'uppercase', marginBottom: '25px' }}>Наш подход</p>
+            <h2 style={{ fontSize: '42px', color: '#f5f0e8', lineHeight: 1.25, marginBottom: '30px', fontWeight: '300' }}>Качество,<br/>которому<br/><span style={{ color: '#d4b996' }}>можно доверять</span></h2>
+            <p style={{ fontSize: '17px', color: 'rgba(245,240,232,0.7)', lineHeight: 1.9, marginBottom: '25px' }}>Мы работаем напрямую с рыболовецкими артелями Дальнего Востока. Каждый продукт проходит многоступенчатый контроль качества.</p>
+            <p style={{ fontSize: '16px', color: 'rgba(212,185,150,0.6)', marginBottom: '35px' }}>Вы получаете продукт такой же свежести, как если бы сами приехали на побережье.</p>
+            <div style={{ fontSize: '28px', color: '#d4b996' }}>Устрицы от 890 руб <span style={{ fontSize: '14px', color: 'rgba(212,185,150,0.5)' }}>/ шт</span></div>
           </div>
         </div>
       </section>
 
       {/* CATALOG */}
-      <section style={{ padding: '80px 40px', background: '#0a0a0a' }}>
+      <section style={{ padding: '100px 40px', background: '#0a0a0a' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <p style={{ fontSize: '10px', letterSpacing: '3px', color: 'rgba(199,93,74,0.8)', textTransform: 'uppercase', marginBottom: '15px' }}>Коллекция</p>
-            <h2 style={{ fontSize: '40px', fontStyle: 'italic', color: '#f5e6d3' }}>Выбери своё <span style={{ color: '#c75d4a' }}>искушение</span></h2>
+          <div style={{ textAlign: 'center', marginBottom: '70px' }}>
+            <p style={{ fontSize: '11px', letterSpacing: '4px', color: 'rgba(42,125,140,0.9)', textTransform: 'uppercase', marginBottom: '20px' }}>Каталог</p>
+            <h2 style={{ fontSize: '42px', color: '#f5f0e8', fontWeight: '300' }}>Выберите для вашего <span style={{ color: '#d4b996' }}>стола</span></h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '25px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '30px' }}>
             {products.map(p => (
               <div key={p.id} className="card" onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(null)}>
-                <div style={{ position: 'relative', height: '250px', overflow: 'hidden' }}>
-                  <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s', transform: hover === p.id ? 'scale(1.1)' : 'scale(1)' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(10,10,10,0.9) 100%)' }} />
-                  {p.tag && <span className="tag" style={{ position: 'absolute', top: '15px', left: '15px' }}>{p.tag}</span>}
-                  <div style={{ position: 'absolute', bottom: '15px', left: '15px', right: '15px', opacity: hover === p.id ? 1 : 0, transform: hover === p.id ? 'translateY(0)' : 'translateY(10px)', transition: 'all 0.4s' }}>
-                    <p style={{ fontSize: '15px', fontStyle: 'italic', color: 'rgba(245,230,211,0.9)' }}>{p.desc}</p>
+                <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
+                  <img src={p.img} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s', transform: hover === p.id ? 'scale(1.08)' : 'scale(1)' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(10,15,20,0.95) 100%)' }} />
+                  {p.tag && <span className="tag" style={{ position: 'absolute', top: '18px', left: '18px' }}>{p.tag}</span>}
+                  <div style={{ position: 'absolute', bottom: '18px', left: '18px', right: '18px', opacity: hover === p.id ? 1 : 0, transform: hover === p.id ? 'translateY(0)' : 'translateY(10px)', transition: 'all 0.4s' }}>
+                    <p style={{ fontSize: '15px', color: 'rgba(245,240,232,0.9)' }}>{p.desc}</p>
                   </div>
                 </div>
-                <div style={{ padding: '25px' }}>
-                  <p style={{ fontSize: '10px', letterSpacing: '1px', color: 'rgba(212,165,116,0.5)', textTransform: 'uppercase', marginBottom: '8px' }}>{p.sub}</p>
-                  <h3 style={{ fontSize: '22px', color: '#f5e6d3', marginBottom: '15px' }}>{p.name}</h3>
+                <div style={{ padding: '28px' }}>
+                  <p style={{ fontSize: '11px', letterSpacing: '1px', color: 'rgba(212,185,150,0.5)', textTransform: 'uppercase', marginBottom: '10px' }}>{p.sub}</p>
+                  <h3 style={{ fontSize: '22px', color: '#f5f0e8', marginBottom: '18px', fontWeight: '400' }}>{p.name}</h3>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '24px', color: '#d4a574' }}>{p.price} <span style={{ fontSize: '12px', color: 'rgba(212,165,116,0.5)' }}>₽/{p.w}</span></span>
-                    <button style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #8b2942, #c75d4a)', border: 'none', borderRadius: '50%', color: '#f5e6d3', fontSize: '18px', cursor: 'pointer' }}>+</button>
+                    <span style={{ fontSize: '24px', color: '#d4b996' }}>{p.price} <span style={{ fontSize: '13px', color: 'rgba(212,185,150,0.5)' }}>руб/{p.w}</span></span>
+                    <button style={{ width: '44px', height: '44px', background: 'linear-gradient(135deg, #1a4d5c, #2a7d8c)', border: 'none', borderRadius: '12px', color: '#f5f0e8', fontSize: '20px', cursor: 'pointer', transition: 'transform 0.3s' }}>+</button>
                   </div>
                 </div>
               </div>
@@ -135,45 +158,100 @@ export default function App() {
         </div>
       </section>
 
-      {/* COUPLE */}
+      {/* TRUST SECTION */}
+      <section style={{ padding: '100px 40px', background: 'linear-gradient(180deg, #0a0a0a, #0f1418)' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <p style={{ fontSize: '11px', letterSpacing: '4px', color: 'rgba(42,125,140,0.9)', textTransform: 'uppercase', marginBottom: '20px' }}>Почему выбирают нас</p>
+            <h2 style={{ fontSize: '38px', color: '#f5f0e8', fontWeight: '300' }}>Гарантии качества</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '40px', textAlign: 'center' }}>
+            {[
+              { icon: '\u2744\ufe0f', title: 'Свежесть', desc: 'Доставка в термобоксах с сохранением температуры' },
+              { icon: '\u2713', title: 'Гарантия', desc: 'Вернём деньги, если качество не устроит' },
+              { icon: '\ud83d\ude9a', title: 'Доставка', desc: 'По всей России от 1 дня' },
+              { icon: '\ud83c\udf81', title: 'Упаковка', desc: 'Премиальная подарочная упаковка' }
+            ].map((item, i) => (
+              <div key={i}>
+                <div className="trust-icon" style={{ margin: '0 auto 15px' }}>
+                  <span style={{ fontSize: '24px' }}>{item.icon}</span>
+                </div>
+                <h4 style={{ fontSize: '16px', color: '#f5f0e8', marginBottom: '10px' }}>{item.title}</h4>
+                <p style={{ fontSize: '14px', color: 'rgba(245,240,232,0.6)', lineHeight: 1.6 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section style={{ padding: '100px 40px', background: '#0a0a0a' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <p style={{ fontSize: '11px', letterSpacing: '4px', color: 'rgba(42,125,140,0.9)', textTransform: 'uppercase', marginBottom: '20px' }}>Отзывы</p>
+          <h2 style={{ fontSize: '38px', color: '#f5f0e8', fontWeight: '300', marginBottom: '60px' }}>Что говорят наши клиенты</h2>
+          <div style={{ background: 'linear-gradient(145deg, rgba(26,35,40,0.7), rgba(15,20,25,0.8))', borderRadius: '20px', padding: '50px', border: '1px solid rgba(212,185,150,0.1)' }}>
+            <p style={{ fontSize: '20px', color: 'rgba(245,240,232,0.9)', lineHeight: 1.8, marginBottom: '35px' }}>"{reviews[activeReview].text}"</p>
+            <p style={{ fontSize: '18px', color: '#d4b996', marginBottom: '5px' }}>{reviews[activeReview].name}</p>
+            <p style={{ fontSize: '14px', color: 'rgba(212,185,150,0.6)' }}>{reviews[activeReview].role}</p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '30px' }}>
+            {reviews.map((_, i) => (
+              <button key={i} onClick={() => setActiveReview(i)} style={{ width: '12px', height: '12px', borderRadius: '50%', border: 'none', background: activeReview === i ? '#2a7d8c' : 'rgba(212,185,150,0.3)', cursor: 'pointer', transition: 'all 0.3s' }} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAMILY SET CTA */}
       <section style={{ position: 'relative', height: '70vh', overflow: 'hidden' }}>
-        <img src={IMG.couple} alt="Романтический ужин" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.6)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(10,10,10,0.2), rgba(10,10,10,0.85))', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '60px' }}>
-          <div style={{ textAlign: 'center', maxWidth: '650px' }}>
-            <p style={{ fontSize: '10px', letterSpacing: '3px', color: 'rgba(199,93,74,0.8)', textTransform: 'uppercase', marginBottom: '20px' }}>Для двоих</p>
-            <h2 style={{ fontSize: '42px', fontStyle: 'italic', color: '#f5e6d3', marginBottom: '20px' }}>Вечера, которые <span style={{ color: '#c75d4a' }}>не забываются</span></h2>
-            <p style={{ fontSize: '17px', fontStyle: 'italic', color: 'rgba(245,230,211,0.7)', marginBottom: '15px' }}>Свечи. Шампанское. Устрицы из рук друг друга. Взгляды, которые говорят больше слов.</p>
-            <p style={{ fontSize: '15px', fontStyle: 'italic', color: 'rgba(212,165,116,0.5)', marginBottom: '35px' }}>Вечер начинается с ужина. Чем он закончится — решать вам.</p>
-            <button className="btn">Заказать вечер вдвоём</button>
+        <img src={IMG.couple} alt="Семейное застолье" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.5)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(10,10,10,0.3), rgba(10,15,20,0.9))', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '80px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '700px' }}>
+            <p style={{ fontSize: '11px', letterSpacing: '4px', color: 'rgba(42,125,140,0.9)', textTransform: 'uppercase', marginBottom: '25px' }}>Идеальный выбор</p>
+            <h2 style={{ fontSize: '44px', color: '#f5f0e8', marginBottom: '25px', fontWeight: '300' }}>Семейный сет —<br/><span style={{ color: '#d4b996' }}>впечатление, которое запомнится</span></h2>
+            <p style={{ fontSize: '17px', color: 'rgba(245,240,232,0.75)', marginBottom: '20px', lineHeight: 1.8 }}>Подарите близким незабываемый вечер. Краб, икра, устрицы — всё, что нужно для особенного момента.</p>
+            <p style={{ fontSize: '28px', color: '#d4b996', marginBottom: '40px' }}>29 900 руб <span style={{ fontSize: '16px', color: 'rgba(212,185,150,0.6)' }}>/ сет на 4-6 персон</span></p>
+            <button className="btn">Заказать семейный сет</button>
           </div>
         </div>
       </section>
 
       {/* FORM */}
-      <section style={{ padding: '100px 40px', background: 'linear-gradient(180deg, #0a0a0a, #1a0a0a)' }}>
-        <div style={{ maxWidth: '450px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '36px', fontStyle: 'italic', color: '#f5e6d3', marginBottom: '15px' }}>Позвольте себе <span style={{ color: '#c75d4a' }}>больше</span></h2>
-          <p style={{ fontSize: '16px', color: 'rgba(245,230,211,0.6)', fontStyle: 'italic', marginBottom: '40px' }}>Оставьте контакты — мы свяжемся</p>
+      <section style={{ padding: '120px 40px', background: 'linear-gradient(180deg, #0a0a0a, #0f1418)' }}>
+        <div style={{ maxWidth: '480px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '38px', color: '#f5f0e8', marginBottom: '15px', fontWeight: '300' }}>Оставьте заявку</h2>
+          <p style={{ fontSize: '16px', color: 'rgba(245,240,232,0.6)', marginBottom: '45px' }}>Мы перезвоним и поможем подобрать идеальный заказ для вашей семьи</p>
           {sent ? (
-            <div style={{ background: 'linear-gradient(135deg, #8b2942, #c75d4a)', padding: '50px', borderRadius: '20px' }}>
-              <p style={{ fontSize: '24px', fontStyle: 'italic', color: '#f5e6d3' }}>Скоро вы почувствуете...</p>
+            <div style={{ background: 'linear-gradient(135deg, #1a4d5c, #2a7d8c)', padding: '55px', borderRadius: '20px' }}>
+              <p style={{ fontSize: '22px', color: '#f5f0e8' }}>Спасибо! Мы скоро свяжемся с вами.</p>
             </div>
           ) : (
             <div>
-              <input type="text" placeholder="Ваше имя" className="input" style={{ marginBottom: '15px' }} value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
-              <input type="tel" placeholder="Телефон" className="input" style={{ marginBottom: '25px' }} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
-              <button className="btn" style={{ width: '100%' }} onClick={() => setSent(true)}>Хочу попробовать</button>
+              <input type="text" placeholder="Ваше имя" className="input" style={{ marginBottom: '18px' }} value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+              <input type="tel" placeholder="Телефон" className="input" style={{ marginBottom: '28px' }} value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+              <button className="btn" style={{ width: '100%' }} onClick={() => setSent(true)}>Отправить заявку</button>
             </div>
           )}
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer style={{ padding: '50px 40px', background: '#050505', borderTop: '1px solid rgba(212,165,116,0.1)', textAlign: 'center' }}>
-        <p style={{ fontSize: '24px', fontStyle: 'italic', color: '#d4a574', marginBottom: '15px' }}>Дальний Восток</p>
-        <p style={{ fontSize: '14px', color: 'rgba(212,165,116,0.6)', marginBottom: '10px' }}>+7 (423) 200-16-16</p>
-        <p style={{ fontSize: '13px', fontStyle: 'italic', color: 'rgba(245,230,211,0.4)' }}>Владивосток • Доставка по всей России</p>
-        <p style={{ fontSize: '11px', color: 'rgba(245,230,211,0.2)', marginTop: '30px' }}>© 2025 Дальний Восток</p>
+      <footer style={{ padding: '60px 40px', background: '#050505', borderTop: '1px solid rgba(212,185,150,0.1)' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '40px', textAlign: 'center' }}>
+          <div>
+            <p style={{ fontSize: '20px', color: '#d4b996', marginBottom: '15px' }}>Дальний Восток</p>
+            <p style={{ fontSize: '13px', color: 'rgba(245,240,232,0.5)' }}>Премиальные деликатесы<br/>для вашего стола</p>
+          </div>
+          <div>
+            <p style={{ fontSize: '16px', color: '#d4b996', marginBottom: '15px' }}>+7 (423) 200-16-16</p>
+            <p style={{ fontSize: '13px', color: 'rgba(245,240,232,0.5)' }}>Ежедневно с 9:00 до 21:00</p>
+          </div>
+          <div>
+            <p style={{ fontSize: '14px', color: 'rgba(245,240,232,0.5)' }}>Владивосток</p>
+            <p style={{ fontSize: '13px', color: 'rgba(245,240,232,0.4)' }}>Доставка по всей России</p>
+          </div>
+        </div>
+        <p style={{ fontSize: '12px', color: 'rgba(245,240,232,0.2)', marginTop: '50px', textAlign: 'center' }}>2025 Дальний Восток. Все права защищены.</p>
       </footer>
     </div>
   );

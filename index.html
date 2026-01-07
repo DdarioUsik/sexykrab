@@ -98,6 +98,56 @@
     .trust-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--color-primary); margin-bottom: 8px; }
     .trust-desc { font-size: 14px; color: var(--color-text-light); line-height: 1.6; }
 
+    /* Categories */
+    .categories-section { padding: 80px 0; }
+    .section-title { font-family: var(--font-display); font-size: 36px; text-align: center; margin-bottom: 48px; color: var(--color-primary-dark); }
+    .categories-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .category-card { position: relative; border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; aspect-ratio: 1; }
+    .category-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .category-card:hover img { transform: scale(1.05); }
+    .category-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; color: white; }
+    .category-name { font-family: var(--font-display); font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+    .category-count { font-size: 14px; opacity: 0.8; }
+
+    /* Product Cards */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .product-card { background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: all 0.3s; border: 1px solid rgba(0,0,0,0.05); }
+    .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .product-image { aspect-ratio: 4/3; overflow: hidden; position: relative; }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; }
+    .product-badge { position: absolute; top: 12px; left: 12px; background: var(--color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .product-info { padding: 20px; }
+    .product-category { font-size: 12px; color: var(--color-accent); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
+    .product-name { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 8px; }
+    .product-params { font-size: 13px; color: var(--color-text-light); margin-bottom: 16px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--color-primary); }
+    .product-price span { font-size: 14px; font-weight: 400; color: var(--color-text-light); }
+    .btn-cart { background: var(--color-primary); color: white; padding: 12px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
+    .btn-cart:hover { background: var(--color-accent); }
+
+    /* Catalog Page */
+    .catalog-page { padding-top: 100px; padding-bottom: 80px; min-height: 100vh; background: var(--color-surface); }
+    .catalog-header { margin-bottom: 32px; }
+    .catalog-title { font-family: var(--font-display); font-size: 42px; margin-bottom: 8px; color: var(--color-primary-dark); }
+    .catalog-subtitle { color: var(--color-text-light); }
+    .catalog-filters { display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+    .filter-btn { padding: 10px 20px; border-radius: 20px; border: 1px solid rgba(0,0,0,0.1); background: white; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+
+    /* Featured Set */
+    .featured-section { padding: 80px 0; background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%); }
+    .featured-content { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; color: white; }
+    .featured-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 13px; margin-bottom: 16px; }
+    .featured-title { font-family: var(--font-display); font-size: 42px; margin-bottom: 16px; }
+    .featured-desc { opacity: 0.9; margin-bottom: 24px; line-height: 1.7; }
+    .featured-list { list-style: none; margin-bottom: 32px; }
+    .featured-list li { padding: 8px 0; padding-left: 28px; position: relative; }
+    .featured-list li::before { content: '✓'; position: absolute; left: 0; color: var(--color-accent-light); }
+    .featured-price { font-family: var(--font-display); font-size: 36px; font-weight: 700; margin-bottom: 24px; }
+    .featured-image { border-radius: var(--radius-lg); overflow: hidden; }
+    .featured-image img { width: 100%; display: block; }
+
     @media (max-width: 1024px) {
       .hero-content { grid-template-columns: 1fr; text-align: center; }
       .hero-subtitle { margin-left: auto; margin-right: auto; }
@@ -105,6 +155,10 @@
       .hero-image { display: none; }
       .hero-title { font-size: 44px; }
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-content { grid-template-columns: 1fr; text-align: center; }
+      .featured-image { order: -1; }
     }
     @media (max-width: 768px) {
       .nav { display: none; }
@@ -116,6 +170,10 @@
       .trust-grid { grid-template-columns: 1fr; }
       .trust-section { padding: 48px 0; }
       .trust-section-title { font-size: 28px; margin-bottom: 32px; }
+      .categories-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 28px; }
+      .catalog-title { font-size: 32px; }
     }
   </style>
 </head>
@@ -230,6 +288,27 @@
       );
     }
 
+    // Данные товаров (10 SKU)
+    const PRODUCTS = [
+      { id: 1, name: 'Камчатский краб — фаланга, 1 кг', category: 'krab', categoryName: 'Краб', price: 4990, params: 'Варено-морож. • Глазурь ≤10% • Камчатка', image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80', badge: 'Хит' },
+      { id: 2, name: 'Камчатский краб — клешня, 800 г', category: 'krab', categoryName: 'Краб', price: 3790, params: 'Варено-морож. • Глазурь ≤10% • Камчатка', image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80', badge: null },
+      { id: 3, name: 'Камчатский краб — целый, 1.5–1.8 кг', category: 'krab', categoryName: 'Краб', price: 8990, params: 'Варено-морож. • Камчатка • Праздничная подача', image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80', badge: 'Праздник' },
+      { id: 4, name: 'Устрицы Хасанские №2 — 12 шт.', category: 'ustritsy', categoryName: 'Устрицы', price: 3590, params: 'Живые • Калибр №2 • Приморье', image: 'https://images.unsplash.com/photo-1606731219412-bb0ef39f77e1?w=400&q=80', badge: 'Свежие' },
+      { id: 5, name: 'Устрицы Хасанские №3 — 24 шт.', category: 'ustritsy', categoryName: 'Устрицы', price: 5990, params: 'Живые • Калибр №3 • Приморье', image: 'https://images.unsplash.com/photo-1606731219412-bb0ef39f77e1?w=400&q=80', badge: null },
+      { id: 6, name: 'Гребешок roe-on — 500 г (IQF)', category: 'grebeshok', categoryName: 'Гребешок', price: 2490, params: 'IQF • Глазурь ≤10% • Сахалин', image: 'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=400&q=80', badge: null },
+      { id: 7, name: 'Гребешок roe-off — 500 г (IQF)', category: 'grebeshok', categoryName: 'Гребешок', price: 2290, params: 'IQF • Глазурь ≤10% • Сахалин', image: 'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=400&q=80', badge: null },
+      { id: 8, name: 'Сет «Вечер вдвоём» — 2 персоны', category: 'sety', categoryName: 'Сеты', price: 9990, params: 'Краб 1кг + Устрицы 12шт + Соусы', image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80', badge: 'Популярный' },
+      { id: 9, name: 'Сет «Морская классика» — 4 персоны', category: 'sety', categoryName: 'Сеты', price: 16990, params: 'Краб 2кг + Гребешок 1кг + Устрицы 24шт', image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80', badge: null },
+      { id: 10, name: 'Оленина — вырезка, 1 кг', category: 'olenina', categoryName: 'Дичь', price: 2990, params: 'Заморозка • Фермерская • Северо-Восток РФ', image: 'https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=80', badge: 'Новинка' },
+    ];
+
+    const CATEGORIES = [
+      { id: 'krab', name: 'Камчатский краб', count: 3, image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80' },
+      { id: 'ustritsy', name: 'Устрицы', count: 2, image: 'https://images.unsplash.com/photo-1606731219412-bb0ef39f77e1?w=400&q=80' },
+      { id: 'grebeshok', name: 'Гребешок', count: 2, image: 'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=400&q=80' },
+      { id: 'sety', name: 'Сеты и подарки', count: 2, image: 'https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&q=80' },
+    ];
+
     // Блок доверия - 4 бейджа
     function TrustBadges() {
       const badges = [
@@ -273,12 +352,138 @@
       );
     }
 
+    // Секция категорий
+    function CategoriesSection({ navigate }) {
+      return (
+        <section className="categories-section">
+          <div className="container">
+            <h2 className="section-title">Наши категории</h2>
+            <div className="categories-grid">
+              {CATEGORIES.map(cat => (
+                <div key={cat.id} className="category-card" onClick={() => navigate('catalog')}>
+                  <img src={cat.image} alt={cat.name} />
+                  <div className="category-overlay">
+                    <div className="category-name">{cat.name}</div>
+                    <div className="category-count">{cat.count} товаров</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Карточка товара
+    function ProductCard({ product, onAddToCart }) {
+      return (
+        <div className="product-card">
+          <div className="product-image">
+            <img src={product.image} alt={product.name} />
+            {product.badge && <span className="product-badge">{product.badge}</span>}
+          </div>
+          <div className="product-info">
+            <div className="product-category">{product.categoryName}</div>
+            <h3 className="product-name">{product.name}</h3>
+            <p className="product-params">{product.params}</p>
+            <div className="product-footer">
+              <div className="product-price">{product.price.toLocaleString()} ₽ <span>/ шт</span></div>
+              <button className="btn-cart" onClick={() => onAddToCart(product)}>В корзину</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Сет недели (Featured)
+    function FeaturedSet({ onAddToCart }) {
+      const set = PRODUCTS.find(p => p.id === 8);
+      return (
+        <section className="featured-section">
+          <div className="container">
+            <div className="featured-content">
+              <div>
+                <span className="featured-badge">🔥 Сет недели</span>
+                <h2 className="featured-title">«Вечер вдвоём»</h2>
+                <p className="featured-desc">
+                  Идеальный набор для романтического ужина. Всё, что нужно для незабываемого вечера —
+                  свежайшие деликатесы с Дальнего Востока.
+                </p>
+                <ul className="featured-list">
+                  <li>Фаланга камчатского краба — 1 кг</li>
+                  <li>Устрицы Хасанские №2 — 12 шт.</li>
+                  <li>Соусы: лимонный, понзу</li>
+                  <li>Открытка с пожеланием</li>
+                </ul>
+                <div className="featured-price">9 990 ₽</div>
+                <button className="btn btn-primary" onClick={() => onAddToCart(set)}>Добавить в корзину</button>
+              </div>
+              <div className="featured-image">
+                <img src="https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=600&q=80" alt="Сет Вечер вдвоём" />
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Страница каталога
+    function CatalogPage({ onAddToCart }) {
+      const [filter, setFilter] = useState('all');
+      const filtered = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+
+      return (
+        <div className="catalog-page">
+          <div className="container">
+            <div className="catalog-header">
+              <h1 className="catalog-title">Каталог</h1>
+              <p className="catalog-subtitle">Премиальные морепродукты с Дальнего Востока</p>
+            </div>
+            <div className="catalog-filters">
+              <button className={`filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>Все</button>
+              <button className={`filter-btn ${filter === 'krab' ? 'active' : ''}`} onClick={() => setFilter('krab')}>Краб</button>
+              <button className={`filter-btn ${filter === 'ustritsy' ? 'active' : ''}`} onClick={() => setFilter('ustritsy')}>Устрицы</button>
+              <button className={`filter-btn ${filter === 'grebeshok' ? 'active' : ''}`} onClick={() => setFilter('grebeshok')}>Гребешок</button>
+              <button className={`filter-btn ${filter === 'sety' ? 'active' : ''}`} onClick={() => setFilter('sety')}>Сеты</button>
+            </div>
+            <div className="products-grid">
+              {filtered.map(product => (
+                <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Страница сетов
+    function SetsPage({ onAddToCart }) {
+      const sets = PRODUCTS.filter(p => p.category === 'sety');
+      return (
+        <div className="catalog-page">
+          <div className="container">
+            <div className="catalog-header">
+              <h1 className="catalog-title">Сеты и подарки</h1>
+              <p className="catalog-subtitle">Готовые комбинации для идеального вечера</p>
+            </div>
+            <div className="products-grid">
+              {sets.map(product => (
+                <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     // Главная страница
-    function HomePage({ navigate }) {
+    function HomePage({ navigate, onAddToCart }) {
       return (
         <>
           <Hero navigate={navigate} />
           <TrustBadges />
+          <CategoriesSection navigate={navigate} />
+          <FeaturedSet onAddToCart={onAddToCart} />
         </>
       );
     }
@@ -296,18 +501,30 @@
 
     function App() {
       const { page, navigate } = useRouter();
-      const [cartCount, setCartCount] = useState(0);
+      const [cart, setCart] = useState([]);
+
+      const addToCart = (product) => {
+        setCart(prev => {
+          const exists = prev.find(item => item.id === product.id);
+          if (exists) {
+            return prev.map(item => item.id === product.id ? { ...item, qty: item.qty + 1 } : item);
+          }
+          return [...prev, { ...product, qty: 1 }];
+        });
+      };
+
+      const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
       const renderPage = () => {
         switch(page) {
-          case 'home': return <HomePage navigate={navigate} />;
-          case 'catalog': return <Placeholder title="Каталог" />;
-          case 'sets': return <Placeholder title="Сеты и подарки" />;
+          case 'home': return <HomePage navigate={navigate} onAddToCart={addToCart} />;
+          case 'catalog': return <CatalogPage onAddToCart={addToCart} />;
+          case 'sets': return <SetsPage onAddToCart={addToCart} />;
           case 'delivery': return <Placeholder title="Доставка и оплата" />;
           case 'origin': return <Placeholder title="Происхождение" />;
           case 'contacts': return <Placeholder title="Контакты" />;
           case 'cart': return <Placeholder title="Корзина" />;
-          default: return <Hero navigate={navigate} />;
+          default: return <HomePage navigate={navigate} onAddToCart={addToCart} />;
         }
       };
 

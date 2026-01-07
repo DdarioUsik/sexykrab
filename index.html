@@ -74,11 +74,17 @@
     .hero-title { font-family: var(--font-display); font-size: 56px; font-weight: 600; line-height: 1.1; margin-bottom: 24px; }
     .hero-subtitle { font-size: 18px; opacity: 0.9; margin-bottom: 40px; max-width: 480px; line-height: 1.7; }
     .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; border-radius: var(--radius-md); font-size: 16px; font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
-    .btn-primary { background: var(--color-accent); color: white; }
-    .btn-primary:hover { background: var(--color-accent-light); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-    .btn-secondary { background: rgba(255,255,255,0.15); color: white; backdrop-filter: blur(10px); }
-    .btn-secondary:hover { background: rgba(255,255,255,0.25); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 16px 32px; border-radius: var(--radius-md); font-size: 16px; font-weight: 600; text-decoration: none; transition: all 0.2s; cursor: pointer; border: 2px solid transparent; }
+    .btn-primary { background: var(--color-accent); color: white; border-color: var(--color-accent); }
+    .btn-primary:hover { background: var(--color-accent-light); border-color: var(--color-accent-light); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .btn-secondary { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+    .btn-secondary:hover { background: var(--color-primary-dark); border-color: var(--color-primary-dark); transform: translateY(-2px); }
+    .btn-tertiary { background: transparent; color: var(--color-primary); border-color: var(--color-primary); }
+    .btn-tertiary:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
+    .btn-ghost { background: rgba(255,255,255,0.15); color: white; backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.3); }
+    .btn-ghost:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
+    .btn-sm { padding: 10px 20px; font-size: 14px; }
+    .btn-lg { padding: 20px 40px; font-size: 18px; }
     .hero-image { position: relative; }
     .hero-image-main { width: 100%; max-width: 500px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
     .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.2); }
@@ -94,7 +100,8 @@
     .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
     .trust-card { background: white; padding: 32px 24px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-sm); transition: all 0.3s; border: 1px solid rgba(0,0,0,0.05); }
     .trust-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-    .trust-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+    .trust-icon { margin-bottom: 16px; display: flex; justify-content: center; color: var(--color-accent); }
+    .trust-icon svg { width: 48px; height: 48px; stroke: var(--color-accent); }
     .trust-title { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--color-primary); margin-bottom: 8px; }
     .trust-desc { font-size: 14px; color: var(--color-text-light); line-height: 1.6; }
 
@@ -115,7 +122,11 @@
     .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
     .product-image { aspect-ratio: 4/3; overflow: hidden; position: relative; }
     .product-image img { width: 100%; height: 100%; object-fit: cover; }
-    .product-badge { position: absolute; top: 12px; left: 12px; background: var(--color-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .product-badge { position: absolute; top: 12px; left: 12px; color: white; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; }
+    .product-badge.badge-hit, .product-badge.badge-popular { background: var(--color-accent); }
+    .product-badge.badge-fresh { background: #28A745; }
+    .product-badge.badge-new { background: #FD7E14; }
+    .product-badge.badge-holiday { background: var(--color-primary-dark); }
     .product-info { padding: 20px; }
     .product-category { font-size: 12px; color: var(--color-accent); font-weight: 600; text-transform: uppercase; margin-bottom: 8px; }
     .product-name { font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--color-text); margin-bottom: 8px; }
@@ -180,14 +191,20 @@
     .contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
     .contact-item span { font-size: 24px; }
     .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
-    .form-group input, .form-group textarea { width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-sm); font-size: 16px; font-family: inherit; transition: border-color 0.2s; }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-accent); }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--color-text); }
+    .form-group label .required { color: var(--color-accent); margin-left: 2px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px 16px; border: 2px solid rgba(0,0,0,0.1); border-radius: var(--radius-sm); font-size: 16px; font-family: inherit; transition: all 0.2s; background: white; }
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1); }
+    .form-group input.error, .form-group textarea.error { border-color: #DC3545; }
+    .form-group input.error:focus, .form-group textarea.error:focus { box-shadow: 0 0 0 4px rgba(220, 53, 69, 0.1); }
     .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-error { font-size: 13px; color: #DC3545; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
     .form-checkbox { display: flex; align-items: flex-start; gap: 12px; }
-    .form-checkbox input { margin-top: 4px; }
-    .form-checkbox label { font-size: 14px; color: var(--color-text-light); }
-    .form-success { background: var(--color-success); color: white; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 20px; }
+    .form-checkbox input[type="checkbox"] { width: auto; margin-top: 4px; accent-color: var(--color-accent); }
+    .form-checkbox label { font-size: 14px; color: var(--color-text-light); cursor: pointer; }
+    .form-success { background: linear-gradient(135deg, #28A745 0%, #20c997 100%); color: white; padding: 20px; border-radius: var(--radius-md); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .form-success svg { flex-shrink: 0; }
+    .contact-icon { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--color-surface); border-radius: 50%; flex-shrink: 0; color: var(--color-accent); }
 
     /* Cart */
     .cart-page { padding-top: 100px; padding-bottom: 80px; min-height: 100vh; background: var(--color-surface); }
@@ -253,17 +270,91 @@
       .blog-article-content { font-size: 16px; }
     }
 
+    /* Animations */
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+    .cart-badge { position: absolute; top: -8px; right: -8px; background: #DC3545; color: white; font-size: 12px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .cart-badge.bounce { animation: bounce 0.3s ease; }
+    .btn-cart.adding { background: #28A745 !important; pointer-events: none; }
+    .btn-cart.added { background: #28A745 !important; }
+
+    /* Toast notifications */
+    .toast-container { position: fixed; top: 100px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { background: white; padding: 16px 24px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 12px; animation: slideIn 0.3s ease; max-width: 320px; }
+    .toast.hiding { animation: slideOut 0.3s ease forwards; }
+    .toast-success { border-left: 4px solid #28A745; }
+    .toast-icon { font-size: 20px; }
+    .toast-message { font-size: 14px; color: var(--color-text); }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      z-index: 999;
+      padding: 24px;
+      animation: fadeIn 0.2s ease;
+      overflow-y: auto;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .mobile-nav { display: flex; flex-direction: column; gap: 8px; }
+    .mobile-nav-link {
+      display: block;
+      padding: 16px 20px;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--color-text);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .mobile-nav-link:hover, .mobile-nav-link.active {
+      background: var(--color-surface);
+      color: var(--color-accent);
+    }
+    .mobile-phone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 20px;
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      color: var(--color-primary);
+      font-weight: 600;
+      font-size: 18px;
+      text-decoration: none;
+    }
+    .mobile-phone svg { stroke: var(--color-accent); }
+
     /* Footer */
     .footer { background: var(--color-primary-dark); color: white; padding: 64px 0 32px; }
     .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
     .footer-brand { font-family: var(--font-display); font-size: 24px; margin-bottom: 16px; }
     .footer-desc { opacity: 0.7; font-size: 14px; line-height: 1.7; }
-    .footer h4 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; opacity: 0.5; }
+    .footer h4 { color: white; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
     .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; transition: opacity 0.2s; }
-    .footer-links a:hover { opacity: 1; }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; text-align: center; opacity: 0.5; font-size: 14px; }
+    .footer-links li { margin-bottom: 12px; line-height: 1.8; }
+    .footer-links a { color: white; text-decoration: none; font-size: 14px; transition: all 0.2s; cursor: pointer; }
+    .footer-links a:hover { color: var(--color-accent); text-decoration: underline; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 32px; text-align: center; color: rgba(255,255,255,0.7); font-size: 14px; }
 
     @media (max-width: 1024px) {
       .hero-content { grid-template-columns: 1fr; text-align: center; }
@@ -394,8 +485,10 @@
       return { page, navigate };
     }
 
-    function Header({ navigate, currentPage, cartCount }) {
+    function Header({ navigate, currentPage, cartCount, cartBounce }) {
       const [scrolled, setScrolled] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
       useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
@@ -411,30 +504,61 @@
         { id: 'contacts', label: 'Контакты' },
       ];
 
+      const handleNavClick = (id) => {
+        navigate(id);
+        setMobileMenuOpen(false);
+      };
+
       return (
-        <header className="header" style={{ boxShadow: scrolled ? 'var(--shadow-md)' : 'none' }}>
-          <div className="container header-inner">
-            <a className="logo" onClick={() => navigate('home')}>
-              <span className="logo-icon">🦀</span>
-              <span>Дальний Восток</span>
-            </a>
-            <nav className="nav">
-              {navItems.map(item => (
-                <span key={item.id} className={`nav-link ${currentPage === item.id ? 'active' : ''}`} onClick={() => navigate(item.id)}>
-                  {item.label}
-                </span>
-              ))}
-            </nav>
-            <div className="header-actions">
-              <a href="tel:+74951234567" className="phone-link">+7 495 123-45-67</a>
-              <button className="cart-btn" onClick={() => navigate('cart')}>
-                🛒
-                {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-              </button>
-              <button className="mobile-menu-btn">☰</button>
+        <>
+          <header className="header" style={{ boxShadow: scrolled ? 'var(--shadow-md)' : 'none' }}>
+            <div className="container header-inner">
+              <a className="logo" onClick={() => handleNavClick('home')}>
+                <span className="logo-icon">🦀</span>
+                <span>Дальний Восток</span>
+              </a>
+              <nav className="nav">
+                {navItems.map(item => (
+                  <span key={item.id} className={`nav-link ${currentPage === item.id ? 'active' : ''}`} onClick={() => navigate(item.id)}>
+                    {item.label}
+                  </span>
+                ))}
+              </nav>
+              <div className="header-actions">
+                <a href="tel:+74951234567" className="phone-link">+7 495 123-45-67</a>
+                <button className="cart-btn" onClick={() => navigate('cart')} style={{ position: 'relative' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                  {cartCount > 0 && <span className={`cart-badge ${cartBounce ? 'bounce' : ''}`}>{cartCount}</span>}
+                </button>
+                <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                  {mobileMenuOpen ? '✕' : '☰'}
+                </button>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
+          {/* Мобильное меню */}
+          {mobileMenuOpen && (
+            <div className="mobile-menu">
+              <nav className="mobile-nav">
+                {navItems.map(item => (
+                  <a key={item.id} className={`mobile-nav-link ${currentPage === item.id ? 'active' : ''}`} onClick={() => handleNavClick(item.id)}>
+                    {item.label}
+                  </a>
+                ))}
+                <a href="tel:+74951234567" className="mobile-phone">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  +7 495 123-45-67
+                </a>
+              </nav>
+            </div>
+          )}
+        </>
       );
     }
 
@@ -451,7 +575,7 @@
               </p>
               <div className="hero-actions">
                 <button className="btn btn-primary" onClick={() => navigate('sets')}>Выбрать сет</button>
-                <button className="btn btn-secondary" onClick={() => navigate('catalog')}>Смотреть каталог</button>
+                <button className="btn btn-ghost" onClick={() => navigate('catalog')}>Смотреть каталог</button>
               </div>
               <div className="hero-stats">
                 <div className="stat-item">
@@ -488,7 +612,6 @@
       { id: 7, name: 'Гребешок roe-off — 500 г (IQF)', category: 'grebeshok', categoryName: 'Гребешок', price: 2290, params: 'IQF • Глазурь ≤10% • Сахалин', image: 'https://images.pexels.com/photos/8951198/pexels-photo-8951198.jpeg?auto=compress&cs=tinysrgb&w=400', badge: null },
       { id: 8, name: 'Сет «Вечер вдвоём» — 2 персоны', category: 'sety', categoryName: 'Сеты', price: 9990, params: 'Краб 1кг + Устрицы 12шт + Соусы', image: 'https://images.pexels.com/photos/2871757/pexels-photo-2871757.jpeg?auto=compress&cs=tinysrgb&w=400', badge: 'Популярный' },
       { id: 9, name: 'Сет «Морская классика» — 4 персоны', category: 'sety', categoryName: 'Сеты', price: 16990, params: 'Краб 2кг + Гребешок 1кг + Устрицы 24шт', image: 'https://images.pexels.com/photos/4553127/pexels-photo-4553127.jpeg?auto=compress&cs=tinysrgb&w=400', badge: null },
-      { id: 10, name: 'Оленина — вырезка, 1 кг', category: 'olenina', categoryName: 'Дичь', price: 2990, params: 'Заморозка • Фермерская • Северо-Восток РФ', image: 'https://images.pexels.com/photos/618775/pexels-photo-618775.jpeg?auto=compress&cs=tinysrgb&w=400', badge: 'Новинка' },
     ];
 
     const CATEGORIES = [
@@ -498,26 +621,62 @@
       { id: 'sety', name: 'Сеты и подарки', count: 2, image: 'https://images.pexels.com/photos/2871757/pexels-photo-2871757.jpeg?auto=compress&cs=tinysrgb&w=400' },
     ];
 
+    // SVG иконки для блока доверия
+    const TrustIcons = {
+      snowflake: () => (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+          <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <polyline points="12 6 14 8 12 10"></polyline>
+          <polyline points="12 14 10 16 12 18"></polyline>
+          <polyline points="6 12 8 10 10 12"></polyline>
+          <polyline points="14 12 16 14 18 12"></polyline>
+        </svg>
+      ),
+      mapPin: () => (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+      ),
+      truck: () => (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+      ),
+      certificate: () => (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <polyline points="9 12 11 14 15 10"></polyline>
+        </svg>
+      )
+    };
+
     // Блок доверия - 4 бейджа
     function TrustBadges() {
       const badges = [
         {
-          icon: '❄️',
+          icon: TrustIcons.snowflake,
           title: 'Холодовая цепь',
           desc: 'От −18°C до 0–4°C на всём пути. Термоконтейнеры и хладоэлементы.'
         },
         {
-          icon: '📍',
+          icon: TrustIcons.mapPin,
           title: 'Происхождение',
           desc: 'Камчатка и Сахалин. Каждая партия с подтверждённым местом вылова.'
         },
         {
-          icon: '🚚',
+          icon: TrustIcons.truck,
           title: 'Доставка день-в-день',
           desc: 'По Москве при заказе до 15:00. Бережная упаковка с охлаждением.'
         },
         {
-          icon: '📋',
+          icon: TrustIcons.certificate,
           title: 'Сертификаты и ЭВСД',
           desc: 'Полный пакет документов. Проверяем каждую партию в системе Меркурий.'
         }
@@ -530,7 +689,7 @@
             <div className="trust-grid">
               {badges.map((badge, i) => (
                 <div className="trust-card" key={i}>
-                  <span className="trust-icon">{badge.icon}</span>
+                  <span className="trust-icon">{badge.icon()}</span>
                   <h3 className="trust-title">{badge.title}</h3>
                   <p className="trust-desc">{badge.desc}</p>
                 </div>
@@ -565,11 +724,23 @@
 
     // Карточка товара
     function ProductCard({ product, onAddToCart }) {
+      const getBadgeClass = (badge) => {
+        if (!badge) return '';
+        const badgeMap = {
+          'Хит': 'badge-hit',
+          'Популярный': 'badge-popular',
+          'Свежие': 'badge-fresh',
+          'Новинка': 'badge-new',
+          'Праздник': 'badge-holiday'
+        };
+        return badgeMap[badge] || 'badge-hit';
+      };
+
       return (
         <div className="product-card">
           <div className="product-image">
-            <img src={product.image} alt={product.name} />
-            {product.badge && <span className="product-badge">{product.badge}</span>}
+            <img src={product.image} alt={product.name} loading="lazy" />
+            {product.badge && <span className={`product-badge ${getBadgeClass(product.badge)}`}>{product.badge}</span>}
           </div>
           <div className="product-info">
             <div className="product-category">{product.categoryName}</div>
@@ -1168,19 +1339,75 @@
     // Форма контакта
     function ContactForm() {
       const [form, setForm] = useState({ name: '', phone: '', message: '', agree: false });
+      const [errors, setErrors] = useState({});
       const [submitted, setSubmitted] = useState(false);
+      const [touched, setTouched] = useState({});
+
+      const formatPhone = (value) => {
+        const digits = value.replace(/\D/g, '');
+        if (digits.length === 0) return '';
+        if (digits.length <= 1) return '+7';
+        let formatted = '+7 ';
+        if (digits.length > 1) formatted += digits.slice(1, 4);
+        if (digits.length > 4) formatted += ' ' + digits.slice(4, 7);
+        if (digits.length > 7) formatted += '-' + digits.slice(7, 9);
+        if (digits.length > 9) formatted += '-' + digits.slice(9, 11);
+        return formatted;
+      };
+
+      const validateField = (name, value) => {
+        switch (name) {
+          case 'name':
+            return value.trim().length < 2 ? 'Введите имя (минимум 2 символа)' : '';
+          case 'phone':
+            const digits = value.replace(/\D/g, '');
+            return digits.length < 11 ? 'Введите корректный номер телефона' : '';
+          default:
+            return '';
+        }
+      };
 
       const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+        let newValue = type === 'checkbox' ? checked : value;
+        if (name === 'phone') newValue = formatPhone(value);
+        setForm(prev => ({ ...prev, [name]: newValue }));
+        if (touched[name]) {
+          setErrors(prev => ({ ...prev, [name]: validateField(name, newValue) }));
+        }
+      };
+
+      const handleBlur = (e) => {
+        const { name, value } = e.target;
+        setTouched(prev => ({ ...prev, [name]: true }));
+        setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
       };
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        if (form.name && form.phone && form.agree) {
+        const newErrors = {
+          name: validateField('name', form.name),
+          phone: validateField('phone', form.phone)
+        };
+        setErrors(newErrors);
+        setTouched({ name: true, phone: true });
+
+        if (!newErrors.name && !newErrors.phone && form.agree) {
           setSubmitted(true);
           setForm({ name: '', phone: '', message: '', agree: false });
+          setTouched({});
+          setErrors({});
         }
+      };
+
+      const ContactIcon = ({ type }) => {
+        const icons = {
+          phone: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>,
+          message: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>,
+          mail: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>,
+          clock: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        };
+        return <span className="contact-icon">{icons[type]}</span>;
       };
 
       return (
@@ -1190,29 +1417,55 @@
               <div className="contact-info">
                 <h3>Свяжитесь с нами</h3>
                 <p>Ответим на вопросы, поможем выбрать продукты и оформить заказ.</p>
-                <div className="contact-item"><span>📞</span> +7 495 123-45-67</div>
-                <div className="contact-item"><span>💬</span> WhatsApp / Telegram</div>
-                <div className="contact-item"><span>✉️</span> info@dalny-vostok.ru</div>
-                <div className="contact-item"><span>🕐</span> Пн-Вс: 9:00 — 21:00</div>
+                <div className="contact-item"><ContactIcon type="phone" /> +7 495 123-45-67</div>
+                <div className="contact-item"><ContactIcon type="message" /> WhatsApp / Telegram</div>
+                <div className="contact-item"><ContactIcon type="mail" /> info@dalny-vostok.ru</div>
+                <div className="contact-item"><ContactIcon type="clock" /> Пн-Вс: 9:00 — 21:00</div>
               </div>
               <div>
-                {submitted && <div className="form-success">Спасибо! Мы свяжемся с вами в ближайшее время.</div>}
+                {submitted && (
+                  <div className="form-success">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                      <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Спасибо! Мы свяжемся с вами в ближайшее время.</span>
+                  </div>
+                )}
                 <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label>Имя *</label>
-                    <input type="text" name="name" value={form.name} onChange={handleChange} required />
+                    <label>Имя <span className="required">*</span></label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={errors.name && touched.name ? 'error' : ''}
+                      placeholder="Ваше имя"
+                    />
+                    {errors.name && touched.name && <div className="form-error">{errors.name}</div>}
                   </div>
                   <div className="form-group">
-                    <label>Телефон *</label>
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+7" required />
+                    <label>Телефон <span className="required">*</span></label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={errors.phone && touched.phone ? 'error' : ''}
+                      placeholder="+7 999 123-45-67"
+                    />
+                    {errors.phone && touched.phone && <div className="form-error">{errors.phone}</div>}
                   </div>
                   <div className="form-group">
                     <label>Сообщение</label>
-                    <textarea name="message" value={form.message} onChange={handleChange} />
+                    <textarea name="message" value={form.message} onChange={handleChange} placeholder="Ваш вопрос или комментарий..." />
                   </div>
                   <div className="form-group form-checkbox">
-                    <input type="checkbox" name="agree" checked={form.agree} onChange={handleChange} required />
-                    <label>Согласен на обработку персональных данных</label>
+                    <input type="checkbox" id="agree" name="agree" checked={form.agree} onChange={handleChange} required />
+                    <label htmlFor="agree">Согласен на обработку персональных данных</label>
                   </div>
                   <button type="submit" className="btn btn-primary">Отправить</button>
                 </form>
@@ -1764,9 +2017,35 @@
       );
     }
 
+    // Toast компонент для уведомлений
+    function Toast({ message, onClose }) {
+      useEffect(() => {
+        const timer = setTimeout(() => onClose(), 3000);
+        return () => clearTimeout(timer);
+      }, [onClose]);
+
+      return (
+        <div className="toast toast-success">
+          <span className="toast-icon">✓</span>
+          <span className="toast-message">{message}</span>
+        </div>
+      );
+    }
+
     function App() {
       const { page, navigate } = useRouter();
       const [cart, setCart] = useState([]);
+      const [cartBounce, setCartBounce] = useState(false);
+      const [toasts, setToasts] = useState([]);
+
+      const showToast = (message) => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message }]);
+      };
+
+      const removeToast = (id) => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+      };
 
       const addToCart = (product) => {
         setCart(prev => {
@@ -1776,6 +2055,10 @@
           }
           return [...prev, { ...product, qty: 1 }];
         });
+        // Анимация и уведомление
+        setCartBounce(true);
+        setTimeout(() => setCartBounce(false), 300);
+        showToast(`${product.name} добавлен в корзину`);
       };
 
       const updateQty = (id, delta) => {
@@ -1819,9 +2102,17 @@
 
       return (
         <>
-          <Header navigate={navigate} currentPage={page} cartCount={cartCount} />
+          <Header navigate={navigate} currentPage={page} cartCount={cartCount} cartBounce={cartBounce} />
           {renderPage()}
           <Footer navigate={navigate} />
+          {/* Toast уведомления */}
+          {toasts.length > 0 && (
+            <div className="toast-container">
+              {toasts.map(toast => (
+                <Toast key={toast.id} message={toast.message} onClose={() => removeToast(toast.id)} />
+              ))}
+            </div>
+          )}
         </>
       );
     }

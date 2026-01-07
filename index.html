@@ -148,6 +148,78 @@
     .featured-image { border-radius: var(--radius-lg); overflow: hidden; }
     .featured-image img { width: 100%; display: block; }
 
+    /* Info Pages */
+    .info-page { padding-top: 100px; padding-bottom: 80px; min-height: 100vh; background: var(--color-surface); }
+    .info-header { margin-bottom: 48px; }
+    .info-title { font-family: var(--font-display); font-size: 42px; margin-bottom: 12px; color: var(--color-primary-dark); }
+    .info-subtitle { color: var(--color-text-light); font-size: 18px; }
+    .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    .info-card { background: white; padding: 32px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+    .info-card h3 { font-family: var(--font-display); font-size: 24px; margin-bottom: 16px; color: var(--color-primary); }
+    .info-card p, .info-card li { color: var(--color-text-light); line-height: 1.8; }
+    .info-card ul { padding-left: 20px; }
+    .info-card li { margin-bottom: 8px; }
+    .info-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+
+    /* FAQ */
+    .faq-section { padding: 80px 0; }
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item { background: white; border-radius: var(--radius-md); margin-bottom: 16px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .faq-question { padding: 20px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+    .faq-question:hover { background: var(--color-surface); }
+    .faq-answer { padding: 0 24px 20px; color: var(--color-text-light); line-height: 1.7; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-icon { transition: transform 0.3s; }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+
+    /* Contact Form */
+    .contact-section { padding: 80px 0; background: white; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .contact-info h3 { font-family: var(--font-display); font-size: 28px; margin-bottom: 24px; color: var(--color-primary-dark); }
+    .contact-info p { color: var(--color-text-light); margin-bottom: 24px; line-height: 1.7; }
+    .contact-item { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .contact-item span { font-size: 24px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
+    .form-group input, .form-group textarea { width: 100%; padding: 14px 16px; border: 1px solid rgba(0,0,0,0.1); border-radius: var(--radius-sm); font-size: 16px; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--color-accent); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-checkbox { display: flex; align-items: flex-start; gap: 12px; }
+    .form-checkbox input { margin-top: 4px; }
+    .form-checkbox label { font-size: 14px; color: var(--color-text-light); }
+    .form-success { background: var(--color-success); color: white; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 20px; }
+
+    /* Cart */
+    .cart-page { padding-top: 100px; padding-bottom: 80px; min-height: 100vh; background: var(--color-surface); }
+    .cart-empty { text-align: center; padding: 80px 0; }
+    .cart-empty-icon { font-size: 64px; margin-bottom: 24px; }
+    .cart-items { background: white; border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 24px; }
+    .cart-item { display: grid; grid-template-columns: 100px 1fr auto auto; gap: 20px; padding: 20px; align-items: center; border-bottom: 1px solid var(--color-surface); }
+    .cart-item img { width: 100px; height: 75px; object-fit: cover; border-radius: var(--radius-sm); }
+    .cart-item-name { font-weight: 600; margin-bottom: 4px; }
+    .cart-item-params { font-size: 13px; color: var(--color-text-light); }
+    .cart-item-qty { display: flex; align-items: center; gap: 12px; }
+    .qty-btn { width: 32px; height: 32px; border: 1px solid rgba(0,0,0,0.1); background: white; border-radius: var(--radius-sm); cursor: pointer; font-size: 18px; }
+    .qty-btn:hover { background: var(--color-surface); }
+    .cart-item-price { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--color-primary); min-width: 100px; text-align: right; }
+    .cart-item-remove { background: none; border: none; color: var(--color-error); cursor: pointer; font-size: 20px; }
+    .cart-summary { background: white; padding: 32px; border-radius: var(--radius-lg); }
+    .cart-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--color-surface); }
+    .cart-total-label { font-size: 18px; }
+    .cart-total-value { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: var(--color-primary); }
+
+    /* Footer */
+    .footer { background: var(--color-primary-dark); color: white; padding: 64px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+    .footer-brand { font-family: var(--font-display); font-size: 24px; margin-bottom: 16px; }
+    .footer-desc { opacity: 0.7; font-size: 14px; line-height: 1.7; }
+    .footer h4 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; opacity: 0.5; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: white; text-decoration: none; opacity: 0.8; font-size: 14px; transition: opacity 0.2s; }
+    .footer-links a:hover { opacity: 1; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 32px; text-align: center; opacity: 0.5; font-size: 14px; }
+
     @media (max-width: 1024px) {
       .hero-content { grid-template-columns: 1fr; text-align: center; }
       .hero-subtitle { margin-left: auto; margin-right: auto; }
@@ -159,6 +231,9 @@
       .products-grid { grid-template-columns: repeat(2, 1fr); }
       .featured-content { grid-template-columns: 1fr; text-align: center; }
       .featured-image { order: -1; }
+      .info-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
       .nav { display: none; }
@@ -174,6 +249,10 @@
       .products-grid { grid-template-columns: 1fr; }
       .section-title { font-size: 28px; }
       .catalog-title { font-size: 32px; }
+      .info-title { font-size: 32px; }
+      .cart-item { grid-template-columns: 80px 1fr; gap: 12px; }
+      .cart-item-qty, .cart-item-price { grid-column: 2; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
     }
   </style>
 </head>
@@ -488,14 +567,301 @@
       );
     }
 
-    function Placeholder({ title }) {
+    // Страница доставки
+    function DeliveryPage() {
       return (
-        <div style={{ minHeight: '100vh', paddingTop: 120, textAlign: 'center', background: 'var(--color-surface)' }}>
+        <div className="info-page">
           <div className="container">
-            <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 36, marginBottom: 16 }}>{title}</h1>
-            <p style={{ color: 'var(--color-text-light)' }}>Раздел в разработке — следующий этап</p>
+            <div className="info-header">
+              <h1 className="info-title">Доставка и оплата</h1>
+              <p className="info-subtitle">Бережная доставка с сохранением холодовой цепи</p>
+            </div>
+            <div className="info-grid">
+              <div className="info-card">
+                <span className="info-icon">🚚</span>
+                <h3>Доставка по Москве</h3>
+                <ul>
+                  <li>День-в-день при заказе до 15:00</li>
+                  <li>Стоимость: от 500 ₽</li>
+                  <li>Бесплатно при заказе от 10 000 ₽</li>
+                  <li>Интервалы: 10-14, 14-18, 18-22</li>
+                </ul>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">📦</span>
+                <h3>Упаковка</h3>
+                <ul>
+                  <li>Термоконтейнеры с хладоэлементами</li>
+                  <li>Температура: 0–4°C (охлаждённое)</li>
+                  <li>Температура: −18°C (замороженное)</li>
+                  <li>Вакуумная упаковка</li>
+                </ul>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">💳</span>
+                <h3>Способы оплаты</h3>
+                <ul>
+                  <li>Наличными курьеру</li>
+                  <li>Картой курьеру</li>
+                  <li>Онлайн на сайте</li>
+                  <li>Безналичный расчёт для юр.лиц</li>
+                </ul>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">🔄</span>
+                <h3>Возврат и обмен</h3>
+                <ul>
+                  <li>Проверка при получении</li>
+                  <li>Возврат в течение 24 часов</li>
+                  <li>Фотофиксация брака</li>
+                  <li>Полная компенсация или замена</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
+      );
+    }
+
+    // Страница происхождения
+    function OriginPage() {
+      return (
+        <div className="info-page">
+          <div className="container">
+            <div className="info-header">
+              <h1 className="info-title">Происхождение</h1>
+              <p className="info-subtitle">Прямые поставки с Дальнего Востока России</p>
+            </div>
+            <div className="info-grid">
+              <div className="info-card">
+                <span className="info-icon">🦀</span>
+                <h3>Камчатка</h3>
+                <p>Камчатский краб вылавливается в холодных водах Охотского и Берингова морей.
+                   Переработка происходит на борту судна в течение нескольких часов после вылова,
+                   что гарантирует максимальную свежесть.</p>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">🦪</span>
+                <h3>Приморье (Хасанский район)</h3>
+                <p>Устрицы выращиваются на фермах в экологически чистых водах залива Петра Великого.
+                   Контролируемые условия и регулярные проверки обеспечивают стабильное качество.</p>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">🐚</span>
+                <h3>Сахалин</h3>
+                <p>Гребешок добывается у берегов Сахалина методом водолазного промысла.
+                   Быстрая заморозка IQF сохраняет нежную текстуру и природную сладость.</p>
+              </div>
+              <div className="info-card">
+                <span className="info-icon">📋</span>
+                <h3>Документы</h3>
+                <p>Каждая партия проходит через систему «Меркурий». По запросу предоставляем
+                   ветеринарные сертификаты, декларации соответствия и информацию о партии.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // FAQ данные
+    const FAQ_DATA = [
+      { q: 'Как вы обеспечиваете холодовую цепь?', a: 'Используем термоконтейнеры с хладоэлементами. Замороженные продукты доставляются при −18°C, охлаждённые — при 0–4°C. Курьеры оснащены термосумками.' },
+      { q: 'Можно ли вернуть продукт?', a: 'Да, в течение 24 часов при обнаружении брака. Сделайте фото, свяжитесь с нами — компенсируем полностью или заменим.' },
+      { q: 'Что делать, если устрица оказалась пустой?', a: 'Это редкость, но случается. Компенсируем по правилам: при падеже более 10% — полный возврат стоимости испорченных устриц.' },
+      { q: 'Что такое глазурь и почему важен вес нетто?', a: 'Глазурь — ледяная корка, защищающая продукт. У нас глазурь ≤10%. Всегда указываем вес нетто — реальный вес продукта без глазури.' },
+      { q: 'Как выбрать калибр краба/устриц?', a: 'Для краба: фаланга — эффектная подача, клешня — салаты и пасты. Для устриц: №2-3 — для сырых подач, №4-5 — для запекания.' },
+      { q: 'Сколько хранится и как размораживать?', a: 'Замороженные: до 6 месяцев при −18°C. Размораживать в холодильнике 8-12 часов. Повторная заморозка не рекомендуется.' },
+      { q: 'Доставка день-в-день: до какого времени заказа?', a: 'Заказы до 15:00 доставляем в тот же день. Позже — на следующий день или в выбранную дату.' },
+      { q: 'Чем подтверждаете происхождение?', a: 'Каждая партия в системе «Меркурий». Предоставляем ветеринарные сертификаты, информацию о месте вылова и дате переработки.' },
+    ];
+
+    // FAQ компонент
+    function FAQ() {
+      const [openIndex, setOpenIndex] = useState(null);
+      return (
+        <section className="faq-section">
+          <div className="container">
+            <h2 className="section-title">Часто задаваемые вопросы</h2>
+            <div className="faq-list">
+              {FAQ_DATA.map((item, i) => (
+                <div key={i} className={`faq-item ${openIndex === i ? 'open' : ''}`}>
+                  <div className="faq-question" onClick={() => setOpenIndex(openIndex === i ? null : i)}>
+                    {item.q}
+                    <span className="faq-icon">▼</span>
+                  </div>
+                  <div className="faq-answer">{item.a}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Форма контакта
+    function ContactForm() {
+      const [form, setForm] = useState({ name: '', phone: '', message: '', agree: false });
+      const [submitted, setSubmitted] = useState(false);
+
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (form.name && form.phone && form.agree) {
+          setSubmitted(true);
+          setForm({ name: '', phone: '', message: '', agree: false });
+        }
+      };
+
+      return (
+        <section className="contact-section">
+          <div className="container">
+            <div className="contact-grid">
+              <div className="contact-info">
+                <h3>Свяжитесь с нами</h3>
+                <p>Ответим на вопросы, поможем выбрать продукты и оформить заказ.</p>
+                <div className="contact-item"><span>📞</span> +7 495 123-45-67</div>
+                <div className="contact-item"><span>💬</span> WhatsApp / Telegram</div>
+                <div className="contact-item"><span>✉️</span> info@dalny-vostok.ru</div>
+                <div className="contact-item"><span>🕐</span> Пн-Вс: 9:00 — 21:00</div>
+              </div>
+              <div>
+                {submitted && <div className="form-success">Спасибо! Мы свяжемся с вами в ближайшее время.</div>}
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group">
+                    <label>Имя *</label>
+                    <input type="text" name="name" value={form.name} onChange={handleChange} required />
+                  </div>
+                  <div className="form-group">
+                    <label>Телефон *</label>
+                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} placeholder="+7" required />
+                  </div>
+                  <div className="form-group">
+                    <label>Сообщение</label>
+                    <textarea name="message" value={form.message} onChange={handleChange} />
+                  </div>
+                  <div className="form-group form-checkbox">
+                    <input type="checkbox" name="agree" checked={form.agree} onChange={handleChange} required />
+                    <label>Согласен на обработку персональных данных</label>
+                  </div>
+                  <button type="submit" className="btn btn-primary">Отправить</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // Страница контактов
+    function ContactsPage() {
+      return (
+        <div style={{ paddingTop: 72 }}>
+          <ContactForm />
+          <FAQ />
+        </div>
+      );
+    }
+
+    // Страница корзины
+    function CartPage({ cart, updateQty, removeItem, navigate }) {
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+      if (cart.length === 0) {
+        return (
+          <div className="cart-page">
+            <div className="container">
+              <div className="cart-empty">
+                <div className="cart-empty-icon">🛒</div>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 32, marginBottom: 16 }}>Корзина пуста</h2>
+                <p style={{ color: 'var(--color-text-light)', marginBottom: 32 }}>Добавьте товары из каталога</p>
+                <button className="btn btn-primary" onClick={() => navigate('catalog')}>Перейти в каталог</button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="cart-page">
+          <div className="container">
+            <h1 className="catalog-title" style={{ marginBottom: 32 }}>Корзина</h1>
+            <div className="cart-items">
+              {cart.map(item => (
+                <div key={item.id} className="cart-item">
+                  <img src={item.image} alt={item.name} />
+                  <div>
+                    <div className="cart-item-name">{item.name}</div>
+                    <div className="cart-item-params">{item.params}</div>
+                  </div>
+                  <div className="cart-item-qty">
+                    <button className="qty-btn" onClick={() => updateQty(item.id, -1)}>−</button>
+                    <span>{item.qty}</span>
+                    <button className="qty-btn" onClick={() => updateQty(item.id, 1)}>+</button>
+                  </div>
+                  <div className="cart-item-price">{(item.price * item.qty).toLocaleString()} ₽</div>
+                  <button className="cart-item-remove" onClick={() => removeItem(item.id)}>✕</button>
+                </div>
+              ))}
+            </div>
+            <div className="cart-summary">
+              <div className="cart-total">
+                <span className="cart-total-label">Итого:</span>
+                <span className="cart-total-value">{total.toLocaleString()} ₽</span>
+              </div>
+              <button className="btn btn-primary" style={{ width: '100%' }}>Оформить заказ</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Footer
+    function Footer({ navigate }) {
+      return (
+        <footer className="footer">
+          <div className="container">
+            <div className="footer-grid">
+              <div>
+                <div className="footer-brand">🦀 Дальний Восток</div>
+                <p className="footer-desc">Премиальные морепродукты с Камчатки и Сахалина. Прямые поставки, гарантия свежести.</p>
+              </div>
+              <div>
+                <h4>Каталог</h4>
+                <ul className="footer-links">
+                  <li><a onClick={() => navigate('catalog')}>Камчатский краб</a></li>
+                  <li><a onClick={() => navigate('catalog')}>Устрицы</a></li>
+                  <li><a onClick={() => navigate('catalog')}>Гребешок</a></li>
+                  <li><a onClick={() => navigate('sets')}>Сеты</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Информация</h4>
+                <ul className="footer-links">
+                  <li><a onClick={() => navigate('delivery')}>Доставка и оплата</a></li>
+                  <li><a onClick={() => navigate('origin')}>Происхождение</a></li>
+                  <li><a onClick={() => navigate('contacts')}>Контакты</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4>Контакты</h4>
+                <ul className="footer-links">
+                  <li><a href="tel:+74951234567">+7 495 123-45-67</a></li>
+                  <li><a href="mailto:info@dalny-vostok.ru">info@dalny-vostok.ru</a></li>
+                  <li><a>WhatsApp</a></li>
+                  <li><a>Telegram</a></li>
+                </ul>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              © 2024 Дальневосточные деликатесы. Все права защищены.
+            </div>
+          </div>
+        </footer>
       );
     }
 
@@ -513,6 +879,20 @@
         });
       };
 
+      const updateQty = (id, delta) => {
+        setCart(prev => prev.map(item => {
+          if (item.id === id) {
+            const newQty = item.qty + delta;
+            return newQty > 0 ? { ...item, qty: newQty } : item;
+          }
+          return item;
+        }).filter(item => item.qty > 0));
+      };
+
+      const removeItem = (id) => {
+        setCart(prev => prev.filter(item => item.id !== id));
+      };
+
       const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 
       const renderPage = () => {
@@ -520,10 +900,10 @@
           case 'home': return <HomePage navigate={navigate} onAddToCart={addToCart} />;
           case 'catalog': return <CatalogPage onAddToCart={addToCart} />;
           case 'sets': return <SetsPage onAddToCart={addToCart} />;
-          case 'delivery': return <Placeholder title="Доставка и оплата" />;
-          case 'origin': return <Placeholder title="Происхождение" />;
-          case 'contacts': return <Placeholder title="Контакты" />;
-          case 'cart': return <Placeholder title="Корзина" />;
+          case 'delivery': return <DeliveryPage />;
+          case 'origin': return <OriginPage />;
+          case 'contacts': return <ContactsPage />;
+          case 'cart': return <CartPage cart={cart} updateQty={updateQty} removeItem={removeItem} navigate={navigate} />;
           default: return <HomePage navigate={navigate} onAddToCart={addToCart} />;
         }
       };
@@ -532,6 +912,7 @@
         <>
           <Header navigate={navigate} currentPage={page} cartCount={cartCount} />
           {renderPage()}
+          <Footer navigate={navigate} />
         </>
       );
     }

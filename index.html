@@ -1254,7 +1254,7 @@
       const sendToTelegram = async (orderData) => {
         // Токен бота и chat_id для отправки заказов
         const TELEGRAM_BOT_TOKEN = '7357642133:AAH6ozP2Y8U3qxhxgVq2-aZhaQ1kbn5sRNY';
-        const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID'; // Замени на свой chat_id
+        const TELEGRAM_CHAT_ID = '7357642133';
 
         const itemsList = cart.map(item =>
           `• ${item.name} — ${item.qty} шт. × ${item.price.toLocaleString()} ₽ = ${(item.price * item.qty).toLocaleString()} ₽`

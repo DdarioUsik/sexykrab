@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mia Croft - Snow Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: #1a1a2e;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* HUD */
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 18px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            z-index: 100;
+        }
+
+        .hud-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .health-bar {
+            width: 200px;
+            height: 20px;
+            background: #333;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .health-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ff6666);
+            transition: width 0.3s;
+        }
+
+        .ammo-display {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        /* Menu */
+        #menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        #menu.hidden {
+            display: none;
+        }
+
+        .menu-title {
+            font-size: 72px;
+            color: #00d4ff;
+            text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff;
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px #00d4ff, 0 0 40px #00d4ff; }
+            50% { text-shadow: 0 0 30px #00d4ff, 0 0 60px #00d4ff, 0 0 80px #00d4ff; }
+        }
+
+        .menu-subtitle {
+            font-size: 24px;
+            color: #aaa;
+            margin-bottom: 50px;
+        }
+
+        .menu-btn {
+            padding: 15px 50px;
+            font-size: 24px;
+            background: linear-gradient(90deg, #00d4ff, #0099cc);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        .menu-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px #00d4ff;
+        }
+
+        .controls-info {
+            position: absolute;
+            bottom: 30px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Level transition */
+        #level-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 150;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        #level-screen.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .level-title {
+            font-size: 48px;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .level-desc {
+            font-size: 20px;
+            color: #aaa;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* Game Over / Victory */
+        #game-end {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 180;
+        }
+
+        #game-end.hidden {
+            display: none;
+        }
+
+        .end-title {
+            font-size: 64px;
+            margin-bottom: 30px;
+        }
+
+        .end-title.victory {
+            color: #00ff88;
+            text-shadow: 0 0 30px #00ff88;
+        }
+
+        .end-title.defeat {
+            color: #ff4444;
+            text-shadow: 0 0 30px #ff4444;
+        }
+
+        /* Crosshair */
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 90;
+        }
+
+        #crosshair::before,
+        #crosshair::after {
+            content: '';
+            position: absolute;
+            background: rgba(255,255,255,0.8);
+        }
+
+        #crosshair::before {
+            width: 2px;
+            height: 20px;
+            left: 9px;
+            top: 0;
+        }
+
+        #crosshair::after {
+            width: 20px;
+            height: 2px;
+            left: 0;
+            top: 9px;
+        }
+
+        /* Interaction prompt */
+        #interaction-prompt {
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid #00d4ff;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #interaction-prompt.visible {
+            opacity: 1;
+        }
+
+        /* Puzzle UI */
+        #puzzle-ui {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 30, 50, 0.95);
+            border: 3px solid #00d4ff;
+            border-radius: 20px;
+            padding: 30px;
+            z-index: 120;
+            display: none;
+        }
+
+        #puzzle-ui.visible {
+            display: block;
+        }
+
+        .puzzle-title {
+            color: #00d4ff;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .puzzle-grid {
+            display: grid;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .puzzle-btn {
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            background: #2a3a5a;
+            border: 2px solid #445;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .puzzle-btn:hover {
+            background: #3a4a6a;
+        }
+
+        .puzzle-btn.active {
+            background: #00d4ff;
+            border-color: #fff;
+        }
+
+        .puzzle-btn.correct {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .puzzle-close {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #ff4444;
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Inventory */
+        #inventory {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .inv-slot {
+            width: 60px;
+            height: 60px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #445;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+
+        .inv-slot.has-item {
+            border-color: #00d4ff;
+            background: rgba(0,100,150,0.4);
+        }
+
+        /* Boss Health */
+        #boss-health {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            text-align: center;
+            z-index: 100;
+            display: none;
+        }
+
+        #boss-health.visible {
+            display: block;
+        }
+
+        .boss-name {
+            color: #ff4444;
+            font-size: 20px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .boss-bar {
+            width: 100%;
+            height: 25px;
+            background: #333;
+            border: 2px solid #ff4444;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .boss-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff0000, #ff4444);
+            transition: width 0.3s;
+        }
+
+        /* Loading screen */
+        #loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 300;
+        }
+
+        #loading.hidden {
+            display: none;
+        }
+
+        .loading-text {
+            color: #00d4ff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            height: 100%;
+            background: #00d4ff;
+            width: 0%;
+            animation: load 2s ease-out forwards;
+        }
+
+        @keyframes load {
+            to { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- Loading -->
+        <div id="loading">
+            <div class="loading-text">Loading Mia Croft...</div>
+            <div class="loading-bar">
+                <div class="loading-fill"></div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div id="menu">
+            <h1 class="menu-title">MIA CROFT</h1>
+            <p class="menu-subtitle">Snow Adventure</p>
+            <button class="menu-btn" id="start-btn">Start Game</button>
+            <div class="controls-info">
+                <p>WASD - Move | SPACE - Jump | SHIFT - Run</p>
+                <p>Mouse - Look | Left Click - Shoot | E - Interact</p>
+            </div>
+        </div>
+
+        <!-- Level Screen -->
+        <div id="level-screen">
+            <h2 class="level-title" id="level-title">Level 1</h2>
+            <p class="level-desc" id="level-desc">Description</p>
+        </div>
+
+        <!-- HUD -->
+        <div id="hud" style="display: none;">
+            <div class="hud-item">
+                <span>Health:</span>
+                <div class="health-bar">
+                    <div class="health-fill" id="health-fill"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span>Ammo:</span>
+                <span class="ammo-display" id="ammo-display">30</span>
+            </div>
+            <div class="hud-item">
+                <span>Level:</span>
+                <span id="level-display">1</span>
+            </div>
+        </div>
+
+        <!-- Crosshair -->
+        <div id="crosshair" style="display: none;"></div>
+
+        <!-- Interaction Prompt -->
+        <div id="interaction-prompt">Press E to interact</div>
+
+        <!-- Inventory -->
+        <div id="inventory" style="display: none;">
+            <div class="inv-slot" id="inv-1"></div>
+            <div class="inv-slot" id="inv-2"></div>
+            <div class="inv-slot" id="inv-3"></div>
+        </div>
+
+        <!-- Puzzle UI -->
+        <div id="puzzle-ui">
+            <h3 class="puzzle-title" id="puzzle-title">Puzzle</h3>
+            <div class="puzzle-grid" id="puzzle-grid"></div>
+            <button class="puzzle-close" id="puzzle-close">Close (ESC)</button>
+        </div>
+
+        <!-- Boss Health -->
+        <div id="boss-health">
+            <div class="boss-name">Ice Guardian</div>
+            <div class="boss-bar">
+                <div class="boss-fill" id="boss-fill"></div>
+            </div>
+        </div>
+
+        <!-- Game End -->
+        <div id="game-end" class="hidden">
+            <h1 class="end-title" id="end-title">Victory!</h1>
+            <p style="color: #aaa; font-size: 20px; margin-bottom: 30px;" id="end-message">You completed the adventure!</p>
+            <button class="menu-btn" id="restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
